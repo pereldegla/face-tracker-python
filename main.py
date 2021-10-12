@@ -1,7 +1,20 @@
 from CentroidTracker import *
-from imutils.video import VideoStream
+import time
 import imutils
 import cv2
+import argparse
+
+# construct the argument parse and parse the argument
+parser = argparse.ArgumentParser()
+parser.add_argument("-v", "--video", help="video input")
+args = vars(parser.parse_args())
+
+if args["video"]:
+    video = args["video"]
+else:
+    video = 0
+next_frame = 0
+prev_frame = 0
 
 #find path of xml file containing haarcascade file
 cascPathface = "haarcascade_frontalface_alt2.xml"
@@ -10,16 +23,15 @@ faceCascade = cv2.CascadeClassifier(cascPathface)
 # initialize our centroid tracker and frame dimensions
 ct = CentroidTracker()
 (H, W) = (None, None)
-# load our serialized model from disk
 
 # initialize the video stream and allow the camera sensor to warmup
 print("[INFO] starting video stream...")
-vs = VideoStream(src=0).start()
-
+vs = cv2.VideoCapture(video)
 # loop over the frames from the video stream
 while True:
+    next_frame = time.time()
     # read the next frame from the video stream and resize it
-    frame = vs.read()
+    ret, frame = vs.read()
     frame = imutils.resize(frame, width=400)
     # if the frame dimensions are None, grab them
     if W is None or H is None:
@@ -51,7 +63,18 @@ while True:
             cv2.putText(frame, text, (centroid[0] - 10, centroid[1] - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
             cv2.circle(frame, (centroid[0], centroid[1]), 4, (0, 255, 0), -1)
-        # show the output frame
+
+    fps = 1 / (next_frame - prev_frame)
+    prev_frame = next_frame
+    # converting the fps into integer
+    fps = int(fps)
+    # converting the fps to string so that we can display it on frame
+    # by using putText function
+    fps = str(fps)
+    # putting the FPS count on the frame
+    cv2.putText(frame, fps, (7, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 255, 0), 3, cv2.LINE_AA)
+
+    # show the output frame
     cv2.imshow("Frame", frame)
     key = cv2.waitKey(1) & 0xFF
     # if the `q` key was pressed, break from the loop
