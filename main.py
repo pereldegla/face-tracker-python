@@ -2,7 +2,7 @@ from CentroidTracker import *
 from imutils.video import VideoStream
 import imutils
 import cv2
-from faced import FaceDetection
+
 #find path of xml file containing haarcascade file
 cascPathface = "haarcascade_frontalface_alt2.xml"
 # load the harcaascade in the cascade classifier
