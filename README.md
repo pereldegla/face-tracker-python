@@ -22,3 +22,14 @@ Then:
 - Register new faces
 - Deregister old faces
 
+## Usage
+
+For webcam usage
+'''bash
+python main.py
+'''
+
+For video
+'''bash
+python main.py -v your-video.mp4
+'''
