@@ -1,6 +1,6 @@
 # How to build a face tracker in Python
 
-This project is highly inspired by this article from [Adrian Rosebrock](:pyimagesearch.com/2018/07/23/simple-object-tracking-with-opencv/).
+This project is highly inspired by this article from [Adrian Rosebrock](:https://www.pyimagesearch.com/2018/07/23/simple-object-tracking-with-opencv/).
 His website helps me a lot when it comes to learning Computer Vision.
 
 ## Requirements
